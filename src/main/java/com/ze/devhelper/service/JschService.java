@@ -20,7 +20,7 @@ public class JschService {
 
         for(Host host : hosts){
             JschClient client = new JschClient(host);
-            clientMap.put(host.getIp(),client);
+            //clientMap.put(host.getIp(),client);
         }
     }
 

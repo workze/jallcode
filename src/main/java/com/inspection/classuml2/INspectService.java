@@ -12,7 +12,7 @@ public class INspectService {
         List<String> itemIds = null;
         for(String itemId: itemIds){
             Item item = new Factory().getItem();
-            itemService.execute(new ItemRunnable(item));
+            //itemService.execute(new ItemRunnable(item));
         }
     }
 }

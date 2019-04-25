@@ -2,20 +2,15 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0"
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <parent>
+        <artifactId>allcodes</artifactId>
+        <groupId>ze.home</groupId>
+        <version>1.0-SNAPSHOT</version>
+    </parent>
     <modelVersion>4.0.0</modelVersion>
 
-    <groupId>ze.home</groupId>
-    <artifactId>allcodes</artifactId>
-    <packaging>pom</packaging>
-    <version>1.0-SNAPSHOT</version>
+    <artifactId>local</artifactId>
 
-    <modules>
-        <module>auto-gen-dao</module>
-        <module>dropwizard</module>
-        <module>swagger-diff</module>
-        <module>swagger2doc</module>
-        <module>local</module>
-    </modules>
 
     <dependencies>
 
@@ -85,18 +80,18 @@
             <artifactId>hk2</artifactId>
             <version>2.5.0-b60</version>
         </dependency>
-<!--
-        <dependency>
-            <categoryId>com.github.alex-shpak</categoryId>
-            <artifactId>dropwizard-hk2bundle</artifactId>
-            <version>0.5.3</version>
-            <exclusions>
-                <exclusion>
-                    <categoryId>io.dropwizard</categoryId>
-                    <artifactId>dropwizard-core</artifactId>
-                </exclusion>
-            </exclusions>
-        </dependency>-->
+        <!--
+                <dependency>
+                    <categoryId>com.github.alex-shpak</categoryId>
+                    <artifactId>dropwizard-hk2bundle</artifactId>
+                    <version>0.5.3</version>
+                    <exclusions>
+                        <exclusion>
+                            <categoryId>io.dropwizard</categoryId>
+                            <artifactId>dropwizard-core</artifactId>
+                        </exclusion>
+                    </exclusions>
+                </dependency>-->
 
         <!--<dependency>
             <categoryId>org.glassfish.hk2</categoryId>
@@ -180,42 +175,5 @@
         <!--</dependency>-->
 
     </dependencies>
-
-    <build>
-        <plugins>
-
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-compiler-plugin</artifactId>
-                <version>3.5.1</version>
-                <configuration>
-                    <source>1.8</source>
-                    <target>1.8</target>
-                </configuration>
-            </plugin>
-
-            <!-- <plugin>
-                 <categoryId>com.sun.enterprise</categoryId>
-                 <artifactId>hk2-maven-plugin</artifactId>
-                 <configuration>
-                     <includes>
-                         <include>com/sun/enterprise/v3/**</include>
-                     </includes>
-                 </configuration>
-             </plugin>-->
-      <!--      <plugin>
-                <categoryId>org.glassfish.hk2</categoryId>
-                <artifactId>hk2-inhabitant-generator</artifactId>
-                <version>2.5.0-b57</version>
-                <executions>
-                    <execution>
-                        <goals>
-                            <goal>generate-inhabitants</goal>
-                        </goals>
-                    </execution>
-                </executions>
-            </plugin>-->
-        </plugins>
-    </build>
 
 </project>
