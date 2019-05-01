@@ -10,8 +10,9 @@
         <provider>org.hibernate.jpa.HibernatePersistenceProvider</provider>
 
         <properties>
-            <property name="javax.persistence.jdbc.driver" value="org.sqlite.JDBC" />
-            <property name="javax.persistence.jdbc.url" value="jdbc:sqlite:/Users/apple/Documents/github/jallcode/resource/devhelper.sqlite" />
+            <property name="javax.persistence.jdbc.driver" value="org.h2.Driver" />
+            <property name="javax.persistence.jdbc.url" value="jdbc:h2:tcp://localhost/~/test" />
+<!--            <property name="javax.persistence.jdbc.url" value="jdbc:h2:file:~/test" />-->
             <!--<property name="javax.persistence.jdbc.user" value="journaldev" />
             <property name="javax.persistence.jdbc.password" value="journaldev" />-->
             <property name="hibernate.show_sql" value="true" />

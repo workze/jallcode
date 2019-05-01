@@ -1,23 +1,25 @@
 package smartorm;
 
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 
 @Data
 @Entity
-@Table(name="student")
+@Table(name="STUDENT")
+@NoArgsConstructor
+@AllArgsConstructor
 public class Student {
     @Id
+    @GeneratedValue(strategy=GenerationType.IDENTITY)
     int id;
 
     String name;
 
     int age;
 
-    @Column(name = "qqname")
     String qqName;
 
-    @Transient
-    String tmpName;
 }

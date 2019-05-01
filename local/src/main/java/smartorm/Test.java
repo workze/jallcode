@@ -9,6 +9,7 @@ import org.sqlite.SQLiteJDBCLoader;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
+import javax.sound.midi.SoundbankResource;
 import javax.sql.DataSource;
 import java.sql.Connection;
 import java.sql.Driver;
@@ -17,23 +18,20 @@ import java.util.Map;
 
 public class Test {
     public static void main(String[] args) throws SQLException {
-//        SQLiteDataSource dataSource = new SQLiteDataSource();
-//        dataSource.setUrl("jdbc:sqlite:/Users/apple/Documents/github/jallcode/resource/devhelper.sqlite");
-//
-//        /*DefaultDataAccessor accessor = new DefaultDataAccessor(dataSource);
-//        Map<String,Object> map =  accessor.queryMap("select * from student");*/
-//
-//        QueryRunner queryRunner = new QueryRunner(dataSource);
-//
-//        Student student = queryRunner.query("select id,name,age,qqname from student limit 1",
-//                new BeanHandler<>(Student.class));
-
 
         EntityManagerFactory entityManagerFactory = Persistence.createEntityManagerFactory("persistence");
         EntityManager entityManager = entityManagerFactory.createEntityManager();
 
+        System.out.println("inited");
+        entityManager.getTransaction().begin();
+        Student student = new Student();
+        student.setAge(18);
+        student.setName("name");
+        student.setQqName("qqname");
+        entityManager.persist(student);
+        entityManager.getTransaction().commit();
 
-
+        System.out.println(student.getId());
 
         System.out.println("end");
     }
