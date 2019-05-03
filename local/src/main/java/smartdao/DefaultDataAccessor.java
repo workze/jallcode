@@ -1,14 +1,16 @@
-package smartorm;
+package smartdao;
 
 import org.apache.commons.collections4.MapUtils;
+import org.apache.commons.dbcp2.BasicDataSource;
 import org.apache.commons.dbutils.BasicRowProcessor;
 import org.apache.commons.dbutils.BeanProcessor;
-import org.apache.commons.dbutils.DbUtils;
 import org.apache.commons.dbutils.QueryRunner;
 import org.apache.commons.dbutils.handlers.*;
 import org.apache.commons.lang3.ArrayUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import smartorm.EntityMetadata;
+import smartorm.Student;
 
 import javax.sql.DataSource;
 import java.io.Serializable;
@@ -34,7 +36,7 @@ public class DefaultDataAccessor implements EntityService {
     public <T> T queryEntity(Class<T> entityClass, String sql, Object... params) {
         T result;
         try {
-            Map<String, String> fieldMap = EntityHelper.getEntityMap(entityClass);
+            Map<String, String> fieldMap = EntityMetadata.getEntityMetadata(entityClass).getColumnToPropertyMap();
             if ( MapUtils.isNotEmpty(fieldMap)) {
                 result = queryRunner.query(sql, new BeanHandler<T>(entityClass,
                         new BasicRowProcessor(new BeanProcessor(fieldMap))), params);
@@ -54,7 +56,7 @@ public class DefaultDataAccessor implements EntityService {
     public <T> List<T> queryEntityList(Class<T> entityClass, String sql, Object... params) {
         List<T> result;
         try {
-            Map<String, String> fieldMap = EntityHelper.getEntityMap(entityClass);
+            Map<String, String> fieldMap = EntityMetadata.getEntityMetadata(entityClass).getColumnToPropertyMap();
             if (MapUtils.isNotEmpty(fieldMap)) {
                 result = queryRunner.query(sql, new BeanListHandler<T>(entityClass, new BasicRowProcessor(new BeanProcessor(fieldMap))), params);
             } else {
@@ -236,5 +238,14 @@ public class DefaultDataAccessor implements EntityService {
 
     private static void printSQL(String sql) {
         logger.debug("[Smart] SQL - {}", sql);
+    }
+
+    public static void main(String[] args) {
+        BasicDataSource dataSource = new BasicDataSource();
+        dataSource.setDriverClassName("org.h2.Driver");
+        dataSource.setUrl("jdbc:h2:tcp://localhost:9092/~/test");
+        DefaultDataAccessor accessor = new DefaultDataAccessor(dataSource);
+        Student student = accessor.queryEntity(Student.class, "select * from student limit 1");
+        System.out.println(student);
     }
 }

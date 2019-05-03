@@ -14,12 +14,17 @@ import javax.persistence.*;
 public class Student {
     @Id
     @GeneratedValue(strategy=GenerationType.IDENTITY)
+    @Column(name = "ID")
     int id;
 
     String name;
 
+    @Column(name = "AGE")
     int age;
 
-    String qqName;
+    @Column(name = "QQNAME")
+    String qq;
 
+    @Transient
+    String otherName = "otherName";
 }
