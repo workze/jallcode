@@ -50,12 +50,50 @@ public class EntityService {
         return key;
     }
 
-    public void updateEntity(){
-
+    public <T> void updateEntity(T entity) throws Exception{
+        EntityMetadata metadata = EntityMetadata.getEntityMetadata(entity.getClass());
+        String sql = metadata.getUpdateEntitySql();
+        System.out.println("insert sql:" + sql);
+        Object[] params = metadata.getInsertEntityParams(entity, true);
+        System.out.println("params:" + Arrays.toString(params));
+        Serializable key = null;
+        try (Connection conn = queryRunner.getDataSource().getConnection();
+             PreparedStatement pstmt = conn.prepareStatement(sql, PreparedStatement.RETURN_GENERATED_KEYS)){
+            if (ArrayUtils.isNotEmpty(params)) {
+                for (int i = 0; i < params.length; i++) {
+                    pstmt.setObject(i + 1, params[i]);
+                }
+            }
+            int rows = pstmt.executeUpdate();
+            if (rows == 1) {
+                ResultSet rs = pstmt.getGeneratedKeys();
+                if (rs.next()) {
+                    key = (Serializable) rs.getObject(1);
+                }
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
     }
 
-    public void deleteEntity(){
-
+    public <T> void deleteEntity(Class<T> entity, Serializable id) throws Exception{
+        EntityMetadata metadata = EntityMetadata.getEntityMetadata(entity.getClass());
+        String sql = metadata.getDeleteEntitySql();
+        System.out.println("insert sql:" + sql);
+        Serializable key = null;
+        try (Connection conn = queryRunner.getDataSource().getConnection();
+             PreparedStatement pstmt = conn.prepareStatement(sql, PreparedStatement.RETURN_GENERATED_KEYS)){
+            pstmt.setObject(1, id);
+            int rows = pstmt.executeUpdate();
+            if (rows == 1) {
+                ResultSet rs = pstmt.getGeneratedKeys();
+                if (rs.next()) {
+                    key = (Serializable) rs.getObject(1);
+                }
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     public <T> T getEntity(Class<T> entityClass, Serializable id){
@@ -81,6 +119,13 @@ public class EntityService {
         // test insert
         Student s = new Student(0, "insertName", 18, "insertQQ", "otherName");
         service.insertEntityReturnPK(s);
+
+        // test update
+        student.setName("updatedName");
+        service.updateEntity(student);
+
+        // test delete
+        service.deleteEntity(Student.class, 1);
 
         System.out.println(student);
     }

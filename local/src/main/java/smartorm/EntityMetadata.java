@@ -126,7 +126,6 @@ public class EntityMetadata<T> {
                 columnInfoList.add(getConlumnInfo(field));
             }
         }
-        this.idColumnInfo = idColumnInfo;
         this.normalColumnInfos = ImmutableList.copyOf(columnInfoList);
     }
 
@@ -166,13 +165,13 @@ public class EntityMetadata<T> {
 
     private void initAllColumnList() {
         List<String> allColumnList = new LinkedList<>();
-        allColumnList.add(idColumnInfo.getColumnName());
         allColumnList.addAll(normalColumnNames);
+        allColumnList.add(idColumnInfo.getColumnName());
         allColumnNames = ImmutableList.copyOf(allColumnList);
 
         List<String> allPropertyList = new LinkedList<>();
-        allPropertyList.add(idColumnInfo.getPropertyName());
         allPropertyList.addAll(normalPropertyNames);
+        allPropertyList.add(idColumnInfo.getPropertyName());
         allPropertyNames = ImmutableList.copyOf(allPropertyList);
     }
 
@@ -214,8 +213,8 @@ public class EntityMetadata<T> {
     private void initUpdateEntitySql() {
         StringBuilder sql = new StringBuilder();
         sql.append("update ").append(tableName).append(" set ");
-        for (ColumnInfo columnInfo : normalColumnInfos) {
-            sql.append(columnInfo.getColumnName()).append("=?,");
+        for (String column : normalColumnNames) {
+            sql.append(column).append("=?,");
         }
         sql.deleteCharAt(sql.length() - 1);
         sql.append(" where ")
@@ -271,6 +270,10 @@ public class EntityMetadata<T> {
 
     public String getQueryEntitySql() {
         return queryEntitySql;
+    }
+
+    public String getDeleteEntitySql(){
+        return deleteEntitySql;
     }
 
 }
