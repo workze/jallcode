@@ -17,6 +17,7 @@ public class Student {
     @Column(name = "ID")
     int id;
 
+    @Column(name = "NAME")
     String name;
 
     @Column(name = "AGE")
