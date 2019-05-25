@@ -14,7 +14,7 @@ public class JdbcUtils {
         Connection conn = null;
         try {
             Class.forName("com.mysql.jdbc.Driver");
-            conn = DriverManager.getConnection("jdbc:mysql:///dbpipe", "root", "root");
+            conn = DriverManager.getConnection("jdbc:mysql:///dbpipe", "resourceName", "resourceName");
         }catch(Exception e){
             System.out.println("获取连接对象失败.");
             e.printStackTrace();
