@@ -15,6 +15,7 @@
         <module>swagger-diff</module>
         <module>swagger2doc</module>
         <module>local</module>
+        <module>spr</module>
     </modules>
 
     <dependencies>

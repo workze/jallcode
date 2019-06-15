@@ -1,0 +1,5 @@
+package smartorm
+
+class GrvEntityMeta {
+
+}

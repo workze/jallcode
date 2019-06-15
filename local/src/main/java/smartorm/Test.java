@@ -46,11 +46,13 @@ public class Test {
     }
 
     private void find(EntityManager entityManager){
-        Student student = new Student();
-        student.setId(4);
-        // get
-        student = entityManager.find(Student.class,student);
-
+//        Student student = new Student();
+//        student.setId(4);
+//        // get
+//        student = entityManager.find(Student.class,student);
+        GrvEntityService service = new GrvEntityService<Student>(DB.h2DataSource());
+        int a = service.get();
+        Student student = service.insertEntity(new Student());
 
     }
 }
