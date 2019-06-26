@@ -1,0 +1,12 @@
+server:
+  port: 8080
+
+spring:
+  application:
+    name: demoservice
+  datasource:
+    schema: 'classpath:init.sql'
+
+logging:
+  pattern:
+    console: '[%p] %m %n'

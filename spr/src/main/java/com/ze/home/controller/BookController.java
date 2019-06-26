@@ -15,9 +15,13 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.multipart.MultipartFile;
 
+import javax.sql.DataSource;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.sql.Connection;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 
 @RestController
 public class BookController {
@@ -28,9 +32,17 @@ public class BookController {
     @Autowired
     RestTemplate restTemplate;
 
+    @Autowired
+    DataSource dataSource;
+
+
+
     @RequestMapping(value = "/book", method = RequestMethod.GET)
-    public String hello(){
+    public String hello() throws SQLException {
         bookService.test();
+        System.out.println(dataSource.toString());
+        Connection connection = dataSource.getConnection();
+        System.out.println(connection);
         return "hello world";
     }
 
