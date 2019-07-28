@@ -1,5 +1,6 @@
 package com.ze.dropwizard;
 
+import com.google.common.io.Resources;
 import io.dropwizard.Application;
 import io.dropwizard.setup.Bootstrap;
 import io.dropwizard.setup.Environment;
@@ -13,6 +14,7 @@ import org.glassfish.hk2.utilities.BuilderHelper;
 import org.reflections.Reflections;
 
 import javax.inject.Singleton;
+import java.net.URL;
 import java.util.Set;
 
 /**
@@ -22,7 +24,8 @@ public class DropwizardApp extends Application<AppConfig> {
 
     public static void main(String[] args) throws Exception {
         System.out.println();
-        new DropwizardApp().run("server", "/Users/wangguize/Documents/oschina/java/dropwizard/src/main/resources/config.yml");
+        URL config =  Resources.getResource("config-https.yml");
+        new DropwizardApp().run("server", config.getPath());
 
     }
 
