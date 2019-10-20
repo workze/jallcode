@@ -1,0 +1,57 @@
+
+表
+create table t_terminal
+(
+	terminalno serial not null
+		constraint t_terminal_pk
+			primary key,
+	terminalname varchar(50),
+	modelno int,
+	customerno int,
+	"desc" varchar(50),
+	createtime timestamp,
+	updatetime timestamp
+);
+
+HikariDataSource
+数据库连接池 20
+
+插入语句：
+insert into t_terminal (serial,terminalname,modelno,customerno，createtime, updatetime, desc) values (?,?,1,1,CURRENT_TIMESTAMP,CURRENT_TIMESTAMP,'I am desc...')
+INSERT INTO t_terminal ( "terminalname", "modelno", "customerno", "desc", "createtime", "updatetime", "serial") VALUES ( '1', 1, 1, '1', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, '1')
+---------------------
+第一轮测试
+
+数据库连接池 20
+
+单条插入吞吐量：
+---
+用例：线程数20，1min      2-3min           3-4min
+结果：32667，500tps     65283 358tps     32729 358tps
+
+批量插入吞吐量：
+---
+用例：线程数20，1min，批量20条
+结果：30552*20=611040，509tps*20=10180tps
+
+结论：20倍。
+
+========================
+
+第二轮测试：
+
+数据库连接池 50
+
+单条插入吞吐量：
+---
+用例：线程数20，1min      2-3min    3-4min
+结果：32644，454tps
+
+批量插入吞吐量：
+---
+用例：线程数20，1min，批量20条
+结果：32643*20=652860 455tps
+
+用例：线程数20，1min，批量40条
+结果：27261*40=1090440，442tps
+

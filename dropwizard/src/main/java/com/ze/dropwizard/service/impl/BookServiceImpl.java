@@ -5,6 +5,8 @@ import org.jvnet.hk2.annotations.Service;
 
 @Service
 public class BookServiceImpl implements BookService{
+
+    @Override
     public String getBook(){
         return "book";
     }

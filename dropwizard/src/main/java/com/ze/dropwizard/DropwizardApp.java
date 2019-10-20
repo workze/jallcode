@@ -12,6 +12,7 @@ import org.glassfish.hk2.api.ServiceLocator;
 import org.glassfish.hk2.api.ServiceLocatorFactory;
 import org.glassfish.hk2.utilities.BuilderHelper;
 import org.reflections.Reflections;
+import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 
 import javax.inject.Singleton;
 import java.net.URL;
@@ -24,13 +25,16 @@ public class DropwizardApp extends Application<AppConfig> {
 
     public static void main(String[] args) throws Exception {
         System.out.println();
-        URL config =  Resources.getResource("config-https.yml");
+        URL config =  Resources.getResource("config.yml");
         new DropwizardApp().run("server", config.getPath());
 
     }
 
     @Override
     public void run(AppConfig configuration, Environment environment) throws Exception {
+
+        integrationWithSpring(configuration, environment);
+
 //        final CommonResource commonResource = new CommonResource();
 //        environment.jersey().register(commonResource);
 //
@@ -44,6 +48,14 @@ public class DropwizardApp extends Application<AppConfig> {
 //        environment.getApplicationContext().setAttribute(ServletProperties.SERVICE_LOCATOR, instancer);
 //        ServiceLocator instancer = ServiceLocatorFactory.getInstance().find("dw-hk2");
 //        environment.getApplicationContext().setAttribute(ServletProperties.SERVICE_LOCATOR, instancer);
+    }
+
+    private void integrationWithSpring(AppConfig configuration, Environment environment) {
+
+        AnnotationConfigApplicationContext context = new AnnotationConfigApplicationContext(SpringConfig.class);
+
+        System.out.println("");
+
     }
 
     @Override
